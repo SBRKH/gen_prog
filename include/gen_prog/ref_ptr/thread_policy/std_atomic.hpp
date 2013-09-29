@@ -19,17 +19,17 @@ namespace gen_prog
 
 struct std_atomic
 {
-	template <typename T>
-	struct counter { typedef std::atomic<T> type; };
+    template <typename T>
+    struct counter { typedef std::atomic<T> type; };
 
-	template <typename T>
-	static T increment(std::atomic<T> & t) { return ++t; }
+    template <typename T>
+    static T increment(std::atomic<T> & t) { return ++t; }
 
-	template <typename T>
-	static T decrement(std::atomic<T>  & t) { return --t; }
+    template <typename T>
+    static T decrement(std::atomic<T>  & t) { return --t; }
 
-	template <typename T>
-	static T get(const std::atomic<T> & t) { return t; }
+    template <typename T>
+    static T get(const std::atomic<T> & t) { return t; }
 };
 
 } // namespace gen_prog

@@ -20,43 +20,43 @@ namespace gen_prog
 class empty_class {};
 
 template <typename 	T				= unsigned int,
-		  class 	ThreadPolicy	= single_thread,
-		  class 	BaseClass		= empty_class>
+          class 	ThreadPolicy	= single_thread,
+          class 	BaseClass		= empty_class>
 class Referenced : public BaseClass
 {
 public:
-	typedef T 													value_type;
-	typedef ThreadPolicy 										thread_policy;
-	typedef BaseClass 											base_class;
+    typedef T 													value_type;
+    typedef ThreadPolicy 										thread_policy;
+    typedef BaseClass 											base_class;
 
-	typedef typename thread_policy::template counter<value_type>::type counter_type;
+    typedef typename thread_policy::template counter<value_type>::type counter_type;
 
 
 public:
-	Referenced(): _counter(0) {}
-	Referenced(const Referenced &): _counter(0) {}
+    Referenced(): _counter(0) {}
+    Referenced(const Referenced &): _counter(0) {}
 
 
-	Referenced & operator = (const Referenced &) { return *this; }
+    Referenced & operator = (const Referenced &) { return *this; }
 
 
-	value_type ref() const { return thread_policy::increment(_counter); }
-	value_type unref() const
-	{
-		value_type newRefCount = thread_policy::decrement(_counter);
-		if (newRefCount == 0) delete this;
-		return newRefCount;
-	}
+    value_type ref() const { return thread_policy::increment(_counter); }
+    value_type unref() const
+    {
+        value_type newRefCount = thread_policy::decrement(_counter);
+        if (newRefCount == 0) delete this;
+        return newRefCount;
+    }
 
-	value_type ref_count() const { return thread_policy::get(_counter); }
+    value_type ref_count() const { return thread_policy::get(_counter); }
 
 
 protected:
-	virtual ~Referenced() {}
+    virtual ~Referenced() {}
 
 
 private:
-	mutable counter_type _counter;
+    mutable counter_type _counter;
 };
 
 

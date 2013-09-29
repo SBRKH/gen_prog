@@ -15,17 +15,17 @@ namespace gen_prog
 
 struct single_thread
 {
-	template <typename T>
-	struct counter { typedef T type; };
+    template <typename T>
+    struct counter { typedef T type; };
 
-	template <typename T>
-	static T increment(T & t) { return ++t; }
+    template <typename T>
+    static T increment(T & t) { return ++t; }
 
-	template <typename T>
-	static T decrement(T & t) { return --t; }
+    template <typename T>
+    static T decrement(T & t) { return --t; }
 
-	template <typename T>
-	static T get(T & t) { return t; }
+    template <typename T>
+    static T get(T & t) { return t; }
 };
 
 } // namespace gen_prog

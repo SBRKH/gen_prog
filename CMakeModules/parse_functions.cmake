@@ -12,13 +12,13 @@
 
 
 function( increment VALUE )
-	math( EXPR ${VALUE} "${${VALUE}} + 1" )
-	set(${VALUE} ${${VALUE}} PARENT_SCOPE )
+    math( EXPR ${VALUE} "${${VALUE}} + 1" )
+    set(${VALUE} ${${VALUE}} PARENT_SCOPE )
 endfunction( increment )
 
 function( decrement VALUE )
-	math( EXPR ${VALUE} "${${VALUE}} - 1" )
-	set(${VALUE} ${${VALUE}} PARENT_SCOPE )
+    math( EXPR ${VALUE} "${${VALUE}} - 1" )
+    set(${VALUE} ${${VALUE}} PARENT_SCOPE )
 endfunction( decrement )
 
 # prototype parse_args( TYPE_ARG_NAME ARGS_LIST TYPE_ARGS_LIST RESULTS )
@@ -38,33 +38,33 @@ endfunction( decrement )
 function( parse_args TYPE_ARG_NAME ARGS_LIST TYPE_ARGS_LIST RESULTS)
 
 
-	# loop in LOCAL_ARGS_LIST
-	foreach( ARG IN LISTS ${ARGS_LIST} )
-		
-		list( REMOVE_AT ${ARGS_LIST} 0 )
-		if ( ${ARG} STREQUAL ${TYPE_ARG_NAME} )
-		
-			foreach( SEARCHED_ARG IN LISTS ${ARGS_LIST} )
-			
-				# current arg is a "type name arg" ?
-				list(FIND ${TYPE_ARGS_LIST} ${SEARCHED_ARG} FIND_RESULT)
-				
-				# if no, append arg to result list 
-				# if yes, break the loop
-				if ( ${FIND_RESULT} EQUAL -1 )
-					list( APPEND ${RESULTS} ${SEARCHED_ARG})
-				else()
-					break()
-				endif()
-				
-			endforeach( SEARCHED_ARG )
-			
-			# propagate the results and return
-			set(${RESULTS} ${${RESULTS}} PARENT_SCOPE )
-			return()
-			
-		endif()	
-			
-	endforeach( ARG )
-	
+    # loop in LOCAL_ARGS_LIST
+    foreach( ARG IN LISTS ${ARGS_LIST} )
+
+        list( REMOVE_AT ${ARGS_LIST} 0 )
+        if ( ${ARG} STREQUAL ${TYPE_ARG_NAME} )
+
+            foreach( SEARCHED_ARG IN LISTS ${ARGS_LIST} )
+
+                # current arg is a "type name arg" ?
+                list(FIND ${TYPE_ARGS_LIST} ${SEARCHED_ARG} FIND_RESULT)
+
+                # if no, append arg to result list
+                # if yes, break the loop
+                if ( ${FIND_RESULT} EQUAL -1 )
+                    list( APPEND ${RESULTS} ${SEARCHED_ARG})
+                else()
+                    break()
+                endif()
+
+            endforeach( SEARCHED_ARG )
+
+            # propagate the results and return
+            set(${RESULTS} ${${RESULTS}} PARENT_SCOPE )
+            return()
+
+        endif()
+
+    endforeach( ARG )
+
 endfunction( parse_args )

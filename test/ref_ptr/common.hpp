@@ -36,17 +36,17 @@ using namespace gen_prog;
 typedef boost::mpl::vector<single_thread
 
 #ifdef GEN_PROG__BOOST_ATOMIC_AVAILABLE
-		,boost_atomic
+        ,boost_atomic
 #endif
 
 #ifdef GEN_PROG__BOOST_THREAD_AVAILABLE
-		,boost_mutex
+        ,boost_mutex
 #endif
 
 #ifdef GEN_PROG__CXX11_AVAILABLE
-		, std_atomic
+        , std_atomic
 #endif
-		> ThreadPolicies;
+        > ThreadPolicies;
 
 
 

@@ -18,47 +18,47 @@ namespace gen_prog
 
 struct boost_mutex
 {
-	template <typename T>
-	struct MutexGuardCounter
-	{
-		MutexGuardCounter():
-			_counter(0)
-		{}
-		MutexGuardCounter(T t):
-			_counter(t)
-		{}
-		MutexGuardCounter(const MutexGuardCounter &):
-			_counter(0)
-		{}
-		boost::mutex _mutex;
-		T _counter;
-	};
+    template <typename T>
+    struct MutexGuardCounter
+    {
+        MutexGuardCounter():
+            _counter(0)
+        {}
+        MutexGuardCounter(T t):
+            _counter(t)
+        {}
+        MutexGuardCounter(const MutexGuardCounter &):
+            _counter(0)
+        {}
+        boost::mutex _mutex;
+        T _counter;
+    };
 
-	template <typename T>
-	struct counter
-	{
-		typedef MutexGuardCounter<T> type;
-	};
+    template <typename T>
+    struct counter
+    {
+        typedef MutexGuardCounter<T> type;
+    };
 
-	template <typename T>
-	static T increment(MutexGuardCounter<T> & t)
-	{
-		boost::lock_guard<boost::mutex> locker(t._mutex);
-		return ++t._counter;
-	}
+    template <typename T>
+    static T increment(MutexGuardCounter<T> & t)
+    {
+        boost::lock_guard<boost::mutex> locker(t._mutex);
+        return ++t._counter;
+    }
 
-	template <typename T>
-	static T decrement(MutexGuardCounter<T> & t)
-	{
-		boost::lock_guard<boost::mutex> locker(t._mutex);
-		return --t._counter;
-	}
+    template <typename T>
+    static T decrement(MutexGuardCounter<T> & t)
+    {
+        boost::lock_guard<boost::mutex> locker(t._mutex);
+        return --t._counter;
+    }
 
-	template <typename T>
-	static T get(const MutexGuardCounter<T> & t)
-	{
-		return t._counter;
-	}
+    template <typename T>
+    static T get(const MutexGuardCounter<T> & t)
+    {
+        return t._counter;
+    }
 };
 
 
