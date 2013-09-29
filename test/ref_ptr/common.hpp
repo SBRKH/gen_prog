@@ -1,12 +1,14 @@
-/*
- * common.hpp
- *
- *  Created on: 29 sept. 2013
- *      Author: ledocc
- */
+///////////////////////////////////////////////////////////////////////////////
+/// \file test/ref_ptr/common.hpp
+//
+//  Copyright 2013 David Callu. Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TEST__REF_PTR__COMMON_HPP_
 #define TEST__REF_PTR__COMMON_HPP_
+
+
 
 #include <gen_prog/ref_ptr.hpp>
 

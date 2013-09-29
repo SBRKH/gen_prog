@@ -1,13 +1,19 @@
+///////////////////////////////////////////////////////////////////////////////
+/// \file test/ref_ptr/destructor.cpp
+//
+//  Copyright 2013 David Callu. Distributed under the Boost
+//  Software License, Version 1.0. (See accompanying file
+//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+
 
 #include <boost/test/unit_test.hpp>
-
 
 #include "common.hpp"
 
 
 
 BOOST_AUTO_TEST_SUITE( destructor )
-
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( default_destructor, T, ThreadPolicies )
 {
@@ -28,7 +34,6 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( default_destructor, T, ThreadPolicies )
 
 	BOOST_CHECK_EQUAL( ptr->ref_count(), 1 );
 }
-
 
 BOOST_AUTO_TEST_SUITE_END()
 
