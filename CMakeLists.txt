@@ -1,3 +1,11 @@
+# gen_prog build definition
+# Copyright David Callu 2013
+#
+# Distributed under the Boost Software License, Version 1.0.
+#    (See accompanying file LICENSE_1_0.txt or copy at
+#          http://www.boost.org/LICENSE_1_0.txt)
+
+
 #------------------------------------------------------------------------------
 # define minimum cmake version
 #------------------------------------------------------------------------------
@@ -26,12 +34,9 @@ endif(COMMAND cmake_policy)
 # define CMake Module path
 #------------------------------------------------------------------------------
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_HOME_DIRECTORY}/CMakeModules )
-find_package(CMakeModules)
 
 include( install_functions )
-include( determine_lib_postfix )
 include( output_directory_functions )
-include( win32_use_mp_option )
 include( CXX11 )
 
 
@@ -49,14 +54,11 @@ set(CMAKE_DEBUG_POSTFIX "d")
 # define CMAKE_*_OUTPUT_DIRECTORY
 define_output_directory()
 
-win32_use_mp_option()
 
 
 check_for_cxx11_compiler(GEN_PROG__CPP11__SUPPORTED)
-
-
-
 if(GEN_PROG__CPP11__SUPPORTED)
+
     option(GEN_PROG__USE_CXX11 "Enable C++11" 0)
     
     if(GEN_PROG__USE_CXX11)
@@ -64,16 +66,8 @@ if(GEN_PROG__CPP11__SUPPORTED)
     endif()
     
 endif()
- 
- 
 
-if(WIN32)
-    if(MSVC)
-        add_definitions(-D_USE_MATH_DEFINES)
-        add_definitions(-D_SCL_SECURE_NO_WARNINGS)
-        add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
-    endif(MSVC)
-endif(WIN32)
+
 
 IF(UNIX AND NOT WIN32 AND NOT APPLE)
   IF(CMAKE_SIZEOF_VOID_P MATCHES "8")
@@ -81,9 +75,6 @@ IF(UNIX AND NOT WIN32 AND NOT APPLE)
   ENDIF(CMAKE_SIZEOF_VOID_P MATCHES "8")
 ENDIF(UNIX AND NOT WIN32 AND NOT APPLE)
 
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "x86_64")
-endif()
 
 
 include_directories(${gen_prog_SOURCE_DIR}/include)
