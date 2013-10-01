@@ -11,7 +11,7 @@
 
 
 #include <gen_prog/config.hpp>
-#include <gen_prog/ref_ptr/observer_set.hpp>
+#include <gen_prog/ref_ptr/observer.hpp>
 #include <gen_prog/ref_ptr/thread_policy/single_thread.hpp>
 
 
@@ -35,15 +35,15 @@ public:
     typedef Referenced                                          this_type;
     typedef Referenced                                          referenced_type;
 
-    typedef observer_set<this_type>                             observer_set_type;
+    typedef observer<this_type>                                 observer_type;
 
-    typedef typename thread_policy::template thread_safe_type<counter_type>::type           counter_impl;
-    typedef typename thread_policy::template thread_safe_type<observer_set_type*>::type     observer_set_impl;
+    typedef typename thread_policy::template thread_safe_type<counter_type>::type       counter_impl;
+    typedef typename thread_policy::template thread_safe_type<observer_type*>::type     observer_impl;
 
 
 public:
-    Referenced(): _counter(0), _observer_set(GEN_PROG__NULL) {}
-    Referenced(const Referenced &): _counter(0), _observer_set(GEN_PROG__NULL) {}
+    Referenced(): _counter(0), _observer(GEN_PROG__NULL) {}
+    Referenced(const Referenced &): _counter(0), _observer(GEN_PROG__NULL) {}
 
 
     const Referenced & operator = (const Referenced &) { return *this; }
@@ -60,42 +60,42 @@ public:
 
     counter_type ref_count() const { return thread_policy::get(_counter); }
 
-    observer_set_type * get_observer_set() const { return thread_policy::get(_observer_set); }
-    observer_set_type * get_or_create_observer_set()
+    observer_type * get_observer() const { return thread_policy::get(_observer); }
+    observer_type * get_or_create_observer()
     {
-        observer_set_type * observers = get_observer_set();
-        if ( ! observers )
+        observer_type * current_observer = get_observer();
+        if ( ! current_observer )
         {
-            observer_set_type * new_observers = new observer_set_type(this);
-            new_observers->ref();
-            if (thread_policy::compare_exchange(_observer_set, observers, new_observers))
+            observer_type * new_observer = new observer_type(this);
+            new_observer->ref();
+            if (thread_policy::compare_exchange(_observer, current_observer, new_observer))
             {
-                observers = new_observers;
+                current_observer = new_observer;
             }
             else
             {
-                new_observers->unref();
+                new_observer->unref();
             }
         }
-        return observers;
+        return current_observer;
     }
 
 
 protected:
     virtual ~Referenced()
     {
-        observer_set_type * observers = get_observer_set();
-        if ( observers )
+        observer_type * current_observer = get_observer();
+        if ( current_observer )
         {
-            observers->signal_delete();
-            observers->unref();
+            current_observer->signal_delete();
+            current_observer->unref();
         }
     }
 
 
 private:
     mutable counter_impl _counter;
-    mutable observer_set_impl _observer_set;
+    mutable observer_impl _observer;
 };
 
 

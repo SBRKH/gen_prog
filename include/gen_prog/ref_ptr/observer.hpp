@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// \file gen_prog/ref_ptr/observer_set.hpp
+/// \file gen_prog/ref_ptr/observer.hpp
 //
 //  Copyright 2013 David Callu. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef GEN_PROG__REF_PTR__OBSERVER_SET_HPP_
-#define GEN_PROG__REF_PTR__OBSERVER_SET_HPP_
+#ifndef GEN_PROG__REF_PTR__OBSERVER_HPP_
+#define GEN_PROG__REF_PTR__OBSERVER_HPP_
 
 
 
@@ -23,10 +23,10 @@ template <typename     T,
 class Referenced;
 
 
-class observer_set_base
+class observer_base
 {
 public:
-    observer_set_base() {}
+    observer_base() {}
 
     virtual bool expired() const = 0;
 
@@ -34,17 +34,17 @@ public:
     virtual void do_unref() = 0;
 
 protected:
-    observer_set_base(const observer_set_base & other) {}
-    const observer_set_base & operator = (const observer_set_base & other) { return *this; }
-    virtual ~observer_set_base() {}
+    observer_base(const observer_base & other) {}
+    const observer_base & operator = (const observer_base & other) { return *this; }
+    virtual ~observer_base() {}
 };
 
 
 
 template <class ReferenceT>
-class observer_set : public Referenced<typename ReferenceT::counter_type,
-                                       typename ReferenceT::thread_policy,
-                                       typename ReferenceT::thread_policy::template mutex_wrapper<observer_set_base> >
+class observer : public Referenced<typename ReferenceT::counter_type,
+                                   typename ReferenceT::thread_policy,
+                                   typename ReferenceT::thread_policy::template mutex_wrapper<observer_base> >
 {
 public:
     typedef typename ReferenceT::counter_type                   counter_type;
@@ -54,7 +54,7 @@ public:
 
 
 public:
-    observer_set(referenced_type * ref):_observed_ptr(ref) {}
+    observer(referenced_type * ref):_observed_ptr(ref) {}
 
     void signal_delete()
     {
@@ -92,9 +92,9 @@ public:
 
 
 protected:
-    observer_set(const observer_set & other): _observed_ptr(GEN_PROG__NULL) {}
-    const observer_set & operator = (const observer_set & other) { return *this; }
-    ~observer_set() {}
+    observer(const observer & other): _observed_ptr(GEN_PROG__NULL) {}
+    const observer & operator = (const observer & other) { return *this; }
+    ~observer() {}
 
 
 private:
@@ -105,5 +105,5 @@ private:
 }  // namespace gen_prog
 
 
-#endif // ** GEN_PROG__REF_PTR__OBSERVER_SET_HPP_ ** //
+#endif // ** GEN_PROG__REF_PTR__OBSERVER_HPP_ ** //
 // End of file

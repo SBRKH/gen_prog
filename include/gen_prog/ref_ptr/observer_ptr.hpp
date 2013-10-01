@@ -11,7 +11,7 @@
 
 
 #include <gen_prog/config.hpp>
-#include <gen_prog/ref_ptr/observer_set.hpp>
+#include <gen_prog/ref_ptr/observer.hpp>
 #include <gen_prog/ref_ptr/ref_ptr.hpp>
 
 
@@ -30,38 +30,38 @@ public:
     typedef typename ref_ptr_traits<T>::pointer_type      pointer_type;
     typedef typename ref_ptr_traits<T>::reference_type    reference_type;
 
-    typedef observer_set<T>                               observer_set_type;
+    typedef observer<T>                                   observer_type;
     typedef ref_ptr<T>                                    ref_ptr_type;
 
     ///////////////////////////////////////////////////////////////////////////
     // CTOR / DTOR
     ///////////////////////////////////////////////////////////////////////////
     // default constructor
-    observer_ptr(): _observer_set(GEN_PROG__NULL) {}
+    observer_ptr(): _observer(GEN_PROG__NULL) {}
 
     // pointer constructor
-    observer_ptr(pointer_type ptr): _observer_set(GEN_PROG__NULL) { assign(ptr); }
+    observer_ptr(pointer_type ptr): _observer(GEN_PROG__NULL) { assign(ptr); }
 
     // ref_ptr constructor
-    observer_ptr(const ref_ptr_type & rp): _observer_set(GEN_PROG__NULL) { assign(rp.get()); }
+    observer_ptr(const ref_ptr_type & rp): _observer(GEN_PROG__NULL) { assign(rp.get()); }
 
     // copy constructor
-    observer_ptr(const observer_ptr & op): _observer_set(GEN_PROG__NULL) { assign(op._observer_set); }
+    observer_ptr(const observer_ptr & op): _observer(GEN_PROG__NULL) { assign(op._observer); }
 
     // other pointer constructor
     template <class Other>
-    observer_ptr(Other * ptr): _observer_set(GEN_PROG__NULL) { assign(ptr); }
+    observer_ptr(Other * ptr): _observer(GEN_PROG__NULL) { assign(ptr); }
 
     // other ref_ptr constructor
     template <class Other>
-    observer_ptr(const ref_ptr<Other> & rp): _observer_set(GEN_PROG__NULL) { assign(rp.get()); }
+    observer_ptr(const ref_ptr<Other> & rp): _observer(GEN_PROG__NULL) { assign(rp.get()); }
 
     // other copy constructor
     template <class Other>
-    observer_ptr(const observer_ptr<Other> & op): _observer_set(GEN_PROG__NULL) { assign(op._observer_set); }
+    observer_ptr(const observer_ptr<Other> & op): _observer(GEN_PROG__NULL) { assign(op._observer); }
 
     // destructor
-    ~observer_ptr() { if (_observer_set) _observer_set->do_unref(); }
+    ~observer_ptr() { if (_observer) _observer->do_unref(); }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ public:
     observer_ptr & operator = (const ref_ptr_type & rp) { assign(rp._ptr); return *this; }
 
     // copy operator
-    observer_ptr & operator = (const observer_ptr & op) { assign(op._observer_set); return *this; }
+    observer_ptr & operator = (const observer_ptr & op) { assign(op._observer); return *this; }
 
     // other pointer copy operator
     template <class Other>
@@ -86,10 +86,10 @@ public:
 
     // other copy operator
     template <class Other>
-    observer_ptr & operator = (const observer_ptr<Other> & rp) { assign(op._observer_set); return *this; }
+    observer_ptr & operator = (const observer_ptr<Other> & rp) { assign(op._observer); return *this; }
 
     // swap
-    void swap(observer_ptr & op) { std::swap(_observer_set, op._observer_set); }
+    void swap(observer_ptr & op) { std::swap(_observer, op._observer); }
     // reset
     void reset() { this_type().swap(*this); }
 
@@ -101,7 +101,7 @@ public:
     // @return true if observed pointer is still valid, false otherwise
     bool lock(ref_ptr_type & rp) const { rp = ref_ptr_type(*this); return rp.valid(); }
 
-    bool expired() const { return _observer_set ? _observer_set->expired() : true; }
+    bool expired() const { return _observer ? _observer->expired() : true; }
 
 
 protected:
@@ -110,25 +110,25 @@ protected:
     template<class Other>
     friend class ref_ptr;
 
-    observer_set_base * get_observer_set_base() const { return _observer_set; }
+    observer_base * get_observer_base() const { return _observer; }
 
 private:
     void assign(pointer_type ptr)
     {
-        if (_observer_set) _observer_set->do_unref();
-        _observer_set = ptr ? ptr->get_or_create_observer_set() : GEN_PROG__NULL;
-        if (_observer_set) _observer_set->do_ref();
+        if (_observer) _observer->do_unref();
+        _observer = ptr ? ptr->get_or_create_observer() : GEN_PROG__NULL;
+        if (_observer) _observer->do_ref();
     }
-    void assign(observer_set_base * observer_set)
+    void assign(observer_base * observer)
     {
-        if (_observer_set) _observer_set->do_unref();
-        _observer_set = observer_set;
-        if (_observer_set) _observer_set->do_ref();
+        if (_observer) _observer->do_unref();
+        _observer = observer;
+        if (_observer) _observer->do_ref();
     }
 
 
 private:
-    observer_set_base * _observer_set;
+    observer_base * _observer;
 };
 
 

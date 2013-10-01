@@ -65,13 +65,13 @@ public:
     template <class Other>
     ref_ptr(const observer_ptr<Other> & op): _ptr(GEN_PROG__NULL)
     {
-        typedef typename referenced_type::observer_set_type observer_set_type;
+        typedef typename referenced_type::observer_type observer_type;
 
-        observer_set_type * observer = dynamic_cast<observer_set_type *>(op.get_observer_set_base());
+        observer_type * observer = dynamic_cast<observer_type *>(op.get_observer_base());
         if (observer == GEN_PROG__NULL) return;
 
 
-        typedef typename observer_set_type::referenced_type local_referenced_type;
+        typedef typename observer_type::referenced_type local_referenced_type;
         local_referenced_type * localPtr = observer->add_ref_lock();
         if (localPtr == GEN_PROG__NULL) return;
 
