@@ -20,19 +20,24 @@ namespace gen_prog
 template <class T>
 struct ref_ptr_traits
 {
-    typedef T 				value_type;
-    typedef value_type* 	pointer_type;
-    typedef value_type& 	reference_type;
+    typedef T               value_type;
+    typedef value_type*     pointer_type;
+    typedef value_type&     reference_type;
 };
 
+template <class T> class observer_ptr;
 
 template <class T>
 class ref_ptr
 {
+    typedef ref_ptr<T> this_type;
+
+
 public:
-    typedef typename ref_ptr_traits<T>::value_type 		value_type;
-    typedef typename ref_ptr_traits<T>::pointer_type 	pointer_type;
-    typedef typename ref_ptr_traits<T>::reference_type 	reference_type;
+    typedef T                                            referenced_type;
+    typedef typename ref_ptr_traits<T>::value_type       value_type;
+    typedef typename ref_ptr_traits<T>::pointer_type     pointer_type;
+    typedef typename ref_ptr_traits<T>::reference_type   reference_type;
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -55,6 +60,28 @@ public:
     template <class Other>
     ref_ptr(const ref_ptr<Other> & rp): _ptr(rp.get()) { constructor_ref(); }
 
+
+    // other copy constructor
+    template <class Other>
+    ref_ptr(const observer_ptr<Other> & op): _ptr(GEN_PROG__NULL)
+    {
+        typedef typename referenced_type::observer_set_type observer_set_type;
+
+        observer_set_type * observer = dynamic_cast<observer_set_type *>(op.get_observer_set_base());
+        if (observer == GEN_PROG__NULL) return;
+
+
+        typedef typename observer_set_type::referenced_type local_referenced_type;
+        local_referenced_type * localPtr = observer->add_ref_lock();
+        if (localPtr == GEN_PROG__NULL) return;
+
+
+        T * castedLocalPtr = dynamic_cast<T*>(localPtr);
+        if (castedLocalPtr) assign(castedLocalPtr);
+
+        localPtr->unref();
+    }
+
     // destructor
     ~ref_ptr() { if (_ptr) _ptr->unref(); }
 
@@ -63,32 +90,29 @@ public:
     // Manipulator
     ///////////////////////////////////////////////////////////////////////////
     // pointer copy operator
-    const ref_ptr & operator = (pointer_type ptr) { assign(ptr); return *this; }
+    ref_ptr & operator = (pointer_type ptr) { assign(ptr); return *this; }
 
     // copy operator
-    const ref_ptr & operator = (const ref_ptr & rp) { assign(rp._ptr); return *this; }
+    ref_ptr & operator = (const ref_ptr & rp) { assign(rp._ptr); return *this; }
 
     // other pointer copy operator
     template <class Other>
-    const ref_ptr & operator = (Other * ptr) { assign(ptr); return *this; }
+    ref_ptr & operator = (Other * ptr) { assign(ptr); return *this; }
 
     // other copy operator
     template <class Other>
-    const ref_ptr & operator = (const ref_ptr<Other> & rp) { assign(rp.get()); return *this; }
+    ref_ptr & operator = (const ref_ptr<Other> & rp) { assign(rp.get()); return *this; }
 
     // swap
     void swap(ref_ptr & rp)
     {
-#if 0
-        _ptr    ^= rp._ptr;
-        rp._ptr ^=    _ptr;
-        _ptr    ^= rp._ptr;
-#else
+        std::swap(_ptr, rp._ptr);
+    }
 
-        pointer_type tmp = _ptr;
-        _ptr = rp._ptr;
-        rp._ptr = tmp;
-#endif
+    // swap
+    void reset()
+    {
+        this_type().swap(*this);
     }
 
 

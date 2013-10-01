@@ -20,7 +20,8 @@ namespace gen_prog
 
 struct std_atomic
 {
-    struct mutex_wrapper
+    template <class BaseClassT>
+    struct mutex_wrapper : public BaseClassT
     {
         mutex_wrapper() {}
         mutex_wrapper(const mutex_wrapper & ) {}
@@ -32,7 +33,8 @@ struct std_atomic
 
     struct lock_guard
     {
-        lock_guard(const mutex_wrapper & wrapper): _locker(wrapper._mutex) {}
+        template <class MutexWrapperT>
+        lock_guard(const MutexWrapperT & wrapper): _locker(wrapper._mutex) {}
         std::lock_guard<std::mutex> _locker;
     };
     template <typename T>

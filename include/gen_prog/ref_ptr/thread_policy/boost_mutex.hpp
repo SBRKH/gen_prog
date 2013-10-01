@@ -9,8 +9,10 @@
 #define GEN_PROG__REF_PTR__THREAD_POLICY__BOOST_MUTEX_HPP_
 
 
+
 #include <boost/thread/locks.hpp>
 #include <boost/thread/mutex.hpp>
+
 
 
 namespace gen_prog
@@ -18,7 +20,8 @@ namespace gen_prog
 
 struct boost_mutex
 {
-    struct mutex_wrapper
+    template <class BaseClassT>
+    struct mutex_wrapper : public BaseClassT
     {
         mutex_wrapper() {}
         mutex_wrapper(const mutex_wrapper & ) {}
@@ -30,7 +33,8 @@ struct boost_mutex
 
     struct lock_guard
     {
-        lock_guard(const mutex_wrapper & wrapper): _locker(wrapper._mutex) {}
+        template <class MutexWrapperT>
+        lock_guard(const MutexWrapperT & wrapper): _locker(wrapper._mutex) {}
         boost::lock_guard<boost::mutex> _locker;
     };
 

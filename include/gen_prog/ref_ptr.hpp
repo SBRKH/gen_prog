@@ -23,6 +23,5 @@
 
 
 
-
 #endif // ** GEN_PROG__REF_PTR_HPP_ ** //
 // End of file

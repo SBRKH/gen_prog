@@ -15,10 +15,13 @@ namespace gen_prog
 
 struct single_thread
 {
-    struct mutex_wrapper {};
+    template <class BaseClassT>
+    struct mutex_wrapper : public BaseClassT {};
+
     struct lock_guard
     {
-        lock_guard(const mutex_wrapper &) {}
+        template <class MutexWrapperT>
+        lock_guard(const MutexWrapperT &) {}
     };
 
 
@@ -38,7 +41,7 @@ struct single_thread
     static void set(T & t, const T & value) { t = value; }
 
     template <typename T>
-    static void compare_exchange(T & t, T & expected, const T & value)
+    static bool compare_exchange(T & t, T & expected, const T & value)
     {
         if (t == expected)
         {
