@@ -18,46 +18,86 @@ namespace gen_prog
 
 struct boost_mutex
 {
-    template <typename T>
-    struct MutexGuardCounter
+    struct mutex_wrapper
     {
-        MutexGuardCounter():
-            _counter(0)
+        mutex_wrapper() {}
+        mutex_wrapper(const mutex_wrapper & ) {}
+        virtual ~mutex_wrapper() {}
+
+        const mutex_wrapper & operator = (const mutex_wrapper & ) {}
+        mutable boost::mutex _mutex;
+    };
+
+    struct lock_guard
+    {
+        lock_guard(const mutex_wrapper & wrapper): _locker(wrapper._mutex) {}
+        boost::lock_guard<boost::mutex> _locker;
+    };
+
+
+    template <typename T>
+    struct MutexGuardElement
+    {
+        MutexGuardElement():
+            _element(0)
         {}
-        MutexGuardCounter(T t):
-            _counter(t)
+        MutexGuardElement(T t):
+            _element(t)
         {}
-        MutexGuardCounter(const MutexGuardCounter &):
-            _counter(0)
+        MutexGuardElement(const MutexGuardElement &):
+            _element(0)
         {}
         boost::mutex _mutex;
-        T _counter;
+        T _element;
     };
 
     template <typename T>
-    struct counter
+    struct thread_safe_type
     {
-        typedef MutexGuardCounter<T> type;
+        typedef MutexGuardElement<T> type;
     };
 
     template <typename T>
-    static T increment(MutexGuardCounter<T> & t)
+    static T increment(MutexGuardElement<T> & t)
     {
         boost::lock_guard<boost::mutex> locker(t._mutex);
-        return ++t._counter;
+        return ++t._element;
     }
 
     template <typename T>
-    static T decrement(MutexGuardCounter<T> & t)
+    static T decrement(MutexGuardElement<T> & t)
     {
         boost::lock_guard<boost::mutex> locker(t._mutex);
-        return --t._counter;
+        return --t._element;
     }
 
     template <typename T>
-    static T get(const MutexGuardCounter<T> & t)
+    static T get(const MutexGuardElement<T> & t)
     {
-        return t._counter;
+        return t._element;
+    }
+
+    template <typename T>
+    static void set(MutexGuardElement<T> & t, const T & value)
+    {
+        boost::lock_guard<boost::mutex> locker(t._mutex);
+        t._element = value;
+    }
+
+    template <typename T>
+    static bool compare_exchange(MutexGuardElement<T> & t, T & expected, const T & value)
+    {
+        boost::lock_guard<boost::mutex> locker(t._mutex);
+        if (t._element == expected)
+        {
+            t._element = value;
+            return true;
+        }
+        else
+        {
+            expected = t._element;
+            return false;
+        }
     }
 };
 

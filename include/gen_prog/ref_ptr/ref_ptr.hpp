@@ -10,6 +10,10 @@
 
 
 
+#include <gen_prog/config.hpp>
+
+
+
 namespace gen_prog
 {
 
@@ -35,7 +39,7 @@ public:
     // CTOR / DTOR
     ///////////////////////////////////////////////////////////////////////////
     // default constructor
-     ref_ptr(): _ptr(NULL) {}
+    ref_ptr(): _ptr(GEN_PROG__NULL) {}
 
     // pointer constructor
     ref_ptr(pointer_type ptr): _ptr(ptr) { constructor_ref(); }
@@ -59,18 +63,18 @@ public:
     // Manipulator
     ///////////////////////////////////////////////////////////////////////////
     // pointer copy operator
-    ref_ptr & operator = (pointer_type ptr) { assign(ptr); return *this; }
+    const ref_ptr & operator = (pointer_type ptr) { assign(ptr); return *this; }
 
     // copy operator
-    ref_ptr & operator = (const ref_ptr & rp) { assign(rp._ptr); return *this; }
+    const ref_ptr & operator = (const ref_ptr & rp) { assign(rp._ptr); return *this; }
 
     // other pointer copy operator
     template <class Other>
-    ref_ptr & operator = (Other * ptr) { assign(ptr); return *this; }
+    const ref_ptr & operator = (Other * ptr) { assign(ptr); return *this; }
 
     // other copy operator
     template <class Other>
-    ref_ptr & operator = (const ref_ptr<Other> & rp) { assign(rp.get()); return *this; }
+    const ref_ptr & operator = (const ref_ptr<Other> & rp) { assign(rp.get()); return *this; }
 
     // swap
     void swap(ref_ptr & rp)
@@ -99,14 +103,14 @@ public:
     pointer_type get() const { return _ptr; }
 
     // @return true if internal pointer is valid, false otherwise
-    bool valid() const { return _ptr != NULL; }
+    bool valid() const { return _ptr != GEN_PROG__NULL; }
 
     // @brief indirection operator
     // @return internal pointer
-    pointer_type operator -> () { return _ptr; }
+    pointer_type operator -> () const { return _ptr; }
 
     // @return reference on internal pointer
-    reference_type operator * () { return *_ptr; }
+    reference_type operator * () const { return *_ptr; }
 
 
 private:

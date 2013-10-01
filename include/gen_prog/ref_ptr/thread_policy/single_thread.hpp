@@ -15,8 +15,15 @@ namespace gen_prog
 
 struct single_thread
 {
+    struct mutex_wrapper {};
+    struct lock_guard
+    {
+        lock_guard(const mutex_wrapper &) {}
+    };
+
+
     template <typename T>
-    struct counter { typedef T type; };
+    struct thread_safe_type { typedef T type; };
 
     template <typename T>
     static T increment(T & t) { return ++t; }
@@ -26,6 +33,24 @@ struct single_thread
 
     template <typename T>
     static T get(T & t) { return t; }
+
+    template <typename T>
+    static void set(T & t, const T & value) { t = value; }
+
+    template <typename T>
+    static void compare_exchange(T & t, T & expected, const T & value)
+    {
+        if (t == expected)
+        {
+            t = value;
+            return true;
+        }
+        else
+        {
+            expected = t;
+            return false;
+        }
+    }
 };
 
 } // namespace gen_prog

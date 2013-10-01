@@ -11,6 +11,7 @@
 
 
 #include <atomic>
+#include <mutex>
 
 
 
@@ -19,17 +20,39 @@ namespace gen_prog
 
 struct std_atomic
 {
+    struct mutex_wrapper
+    {
+        mutex_wrapper() {}
+        mutex_wrapper(const mutex_wrapper & ) {}
+        virtual ~mutex_wrapper() {}
+
+        const mutex_wrapper & operator = (const mutex_wrapper & ) {}
+        mutable std::mutex _mutex;
+    };
+
+    struct lock_guard
+    {
+        lock_guard(const mutex_wrapper & wrapper): _locker(wrapper._mutex) {}
+        std::lock_guard<std::mutex> _locker;
+    };
     template <typename T>
-    struct counter { typedef std::atomic<T> type; };
+    struct thread_safe_type { typedef std::atomic<T> type; };
 
     template <typename T>
-    static T increment(std::atomic<T> & t) { return ++t; }
+    static T increment(std::atomic<T> & t) { return t.fetch_add(1, std::memory_order_relaxed)+1;; }
 
     template <typename T>
-    static T decrement(std::atomic<T>  & t) { return --t; }
+    static T decrement(std::atomic<T>  & t) { return t.fetch_sub(1, std::memory_order_relaxed)-1; }
 
     template <typename T>
-    static T get(const std::atomic<T> & t) { return t; }
+    static T get(const std::atomic<T> & t) { return t.load(std::memory_order_relaxed); }
+
+    template <typename T>
+    static void set(std::atomic<T> & t, const T & value) { t.store(value); }
+
+    template <typename T>
+    static bool compare_exchange(std::atomic<T> & t, T & expected, const T & value)
+    { return t.compare_exchange_strong(expected, value); }
 };
 
 } // namespace gen_prog
