@@ -18,15 +18,16 @@ include(UseBoost)
 add_definitions(-DBOOST_TEST_DYN_LINK)
 
 
-set(Min_Boost_Version_For_Thread "1.25.0")
-set(Min_Boost_Version_For_Atomic "1.53.0")
+set(Min_Boost_Version_For_Thread 102500)
+set(Min_Boost_Version_For_Atomic 105300)
 
-if(Boost_VERSION VERSION_EQUAL Min_Boost_Version_For_Thread OR Boost_VERSION VERSION_GREATER Min_Boost_Version_For_Thread)
+
+if(Boost_VERSION EQUAL Min_Boost_Version_For_Thread OR Boost_VERSION GREATER Min_Boost_Version_For_Thread)
     add_definitions(-DGEN_PROG__BOOST_THREAD_AVAILABLE)
 endif()
 
 
-if(Boost_VERSION VERSION_EQUAL Min_Boost_Version_For_Atomic OR Boost_VERSION VERSION_GREATER Min_Boost_Version_For_Atomic)
+if(Boost_VERSION EQUAL Min_Boost_Version_For_Atomic OR Boost_VERSION GREATER Min_Boost_Version_For_Atomic)
     add_definitions(-DGEN_PROG__BOOST_ATOMIC_AVAILABLE)
 endif()
 
