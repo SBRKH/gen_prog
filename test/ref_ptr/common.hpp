@@ -13,17 +13,17 @@
 #include <gen_prog/ref_ptr.hpp>
 
 #ifdef GEN_PROG__BOOST_ATOMIC_AVAILABLE
-#include <gen_prog/ref_ptr/thread_policy/boost_atomic.hpp>
+#include <gen_prog/ref_ptr/policy/thread/boost_atomic.hpp>
 #endif
 
 #ifdef GEN_PROG__BOOST_THREAD_AVAILABLE
-#include <gen_prog/ref_ptr/thread_policy/boost_mutex.hpp>
+#include <gen_prog/ref_ptr/policy/thread/boost_mutex.hpp>
 #endif
 
-#include <gen_prog/ref_ptr/thread_policy/single_thread.hpp>
+#include <gen_prog/ref_ptr/policy/thread/single_thread.hpp>
 
 #ifdef GEN_PROG__CXX11_AVAILABLE
-#include <gen_prog/ref_ptr/thread_policy/std_atomic.hpp>
+#include <gen_prog/ref_ptr/policy/thread/std_atomic.hpp>
 #endif
 
 

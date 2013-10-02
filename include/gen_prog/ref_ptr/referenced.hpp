@@ -15,8 +15,8 @@
 #include <gen_prog/ref_ptr/observer.hpp>
 #include <gen_prog/ref_ptr/referenced_fwd.hpp>
 #include <gen_prog/ref_ptr/referenced_definition.hpp>
-#include <gen_prog/ref_ptr/delete_handler_policy/no_delete_handler.hpp>
-#include <gen_prog/ref_ptr/thread_policy/single_thread.hpp>
+#include <gen_prog/ref_ptr/policy/delete_handler/no_delete_handler.hpp>
+#include <gen_prog/ref_ptr/policy/thread/single_thread.hpp>
 
 
 namespace boost

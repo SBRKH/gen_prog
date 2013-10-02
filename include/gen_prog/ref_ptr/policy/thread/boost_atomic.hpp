@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// \file gen_prog/ref_ptr/thread_policy/boost_atomic.hpp
+/// \file gen_prog/ref_ptr/policy/thread/boost_atomic.hpp
 //
 //  Copyright 2013 David Callu. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef GEN_PROG__REF_PTR__THREAD_POLICY__BOOST_ATOMIC_HPP_
-#define GEN_PROG__REF_PTR__THREAD_POLICY__BOOST_ATOMIC_HPP_
+#ifndef GEN_PROG__REF_PTR__POLICY__THREAD__BOOST_ATOMIC_HPP_
+#define GEN_PROG__REF_PTR__POLICY__THREAD__BOOST_ATOMIC_HPP_
 
 
 
@@ -64,5 +64,5 @@ struct boost_atomic
 
 
 
-#endif // ** GEN_PROG__REF_PTR__THREAD_POLICY__BOOST_ATOMIC_HPP_ ** //
+#endif // ** GEN_PROG__REF_PTR__POLICY__THREAD__BOOST_ATOMIC_HPP_ ** //
 // End of file

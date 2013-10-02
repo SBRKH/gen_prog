@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// \file gen_prog/ref_ptr/delete_handler_policy/local_delete_handler.hpp
+/// \file gen_prog/ref_ptr/policy/delete_handler/local_delete_handler.hpp
 //
 //  Copyright 2013 David Callu. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef GEN_PROG__REF_PTR__DELETE_HANDLER_POLICY__LOCAL_DELETE_HANDLER_HPP_
-#define GEN_PROG__REF_PTR__DELETE_HANDLER_POLICY__LOCAL_DELETE_HANDLER_HPP_
+#ifndef GEN_PROG__REF_PTR__POLICY__DELETE_HANDLER__LOCAL_DELETE_HANDLER_HPP_
+#define GEN_PROG__REF_PTR__POLICY__DELETE_HANDLER__LOCAL_DELETE_HANDLER_HPP_
 
 
 
@@ -61,7 +61,7 @@ struct local_delete_handler
 
     public:
         // Operator
-        wrapper & operator = (const wrapper & other): base_class(other), 
+        wrapper & operator = (const wrapper & other): base_class(other),
         {
             base_class::operator=(other);
             return *this;
@@ -76,19 +76,19 @@ struct local_delete_handler
                 _deleter = dh;
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
         }
-        
-        
+
+
         // Accessor
         deleter_type * get_deleter()
         {
             return _deleter;
         }
-    
+
 
     protected:
         void do_delete(referenced_type * ref) const
@@ -96,7 +96,7 @@ struct local_delete_handler
 
 
     private:
-        
+
         deleter_ref_ptr _deleter;
     };
 };
@@ -104,5 +104,5 @@ struct local_delete_handler
 } // namespace gen_prog
 
 
-#endif // ** GEN_PROG__REF_PTR__THREAD_POLICY__SINGLE_THREAD_HPP_ ** //
+#endif // ** GEN_PROG__REF_PTR__POLICY__DELETE_HANDLER__LOCAL_DELETE_HANDLER_HPP_ ** //
 // End of file

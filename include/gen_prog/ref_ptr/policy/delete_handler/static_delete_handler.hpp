@@ -1,12 +1,12 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// \file gen_prog/ref_ptr/delete_handler_policy/static_delete_handler.hpp
+/// \file gen_prog/ref_ptr/policy/delete_handler/static_delete_handler.hpp
 //
 //  Copyright 2013 David Callu. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
 //  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef GEN_PROG__REF_PTR__DELETE_HANDLER_POLICY__STATIC_DELETE_HANDLER_HPP_
-#define GEN_PROG__REF_PTR__DELETE_HANDLER_POLICY__STATIC_DELETE_HANDLER_HPP_
+#ifndef GEN_PROG__REF_PTR__POLICY__DELETE_HANDLER__STATIC_DELETE_HANDLER_HPP_
+#define GEN_PROG__REF_PTR__POLICY__DELETE_HANDLER__STATIC_DELETE_HANDLER_HPP_
 
 
 
@@ -46,7 +46,7 @@ struct static_delete_handler
         typedef ref_ptr<deleter_type> d     eleter_ref_ptr;
 
 
-    public:        
+    public:
         // Constructor
         wrapper(): base_class()
         {}
@@ -55,16 +55,16 @@ struct static_delete_handler
     protected:
         // Constructor
         virtual ~wrapper()
-           
+
 
     public:
         // Operator
-        wrapper & operator = (const wrapper & other): base_class(other), 
+        wrapper & operator = (const wrapper & other): base_class(other),
         {
             base_class::operator=(other);
             return *this;
         }
-    
+
 
         // Manipulator
         static bool set_deleter( deleter_type * dh )
@@ -74,7 +74,7 @@ struct static_delete_handler
                 get_static_ref_ptr() = dh;
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
