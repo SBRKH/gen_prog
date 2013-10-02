@@ -61,6 +61,7 @@ class observer : public observer_definition<ReferenceT>::base_class
 {
     typedef observer_definition<ReferenceT>                     definition;
 
+
 public:
     typedef typename definition::counter_type                   counter_type;
     typedef typename definition::referenced_type                referenced_type;
@@ -93,7 +94,7 @@ public:
         {
             // _observed_ptr is currently in its delete function,
             // but signal_delete is not yet call or blocked by lock
-            // of this function. nothing to do, just leave
+            // of this function. so unref and leave to unlock delete process
             _observed_ptr->unref_nodelete();
             return GEN_PROG__NULL;
         }
