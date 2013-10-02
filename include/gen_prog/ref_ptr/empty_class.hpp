@@ -13,7 +13,7 @@
 namespace gen_prog
 {
 
-struct empty_class {};
+//struct empty_class {};
 
 }  // namespace gen_prog
 

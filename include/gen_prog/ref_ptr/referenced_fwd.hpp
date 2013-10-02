@@ -17,7 +17,7 @@ struct single_thread;
 
 struct no_delete_handler;
 
-struct empty_class;
+struct empty_class {};
 
 struct referenced_default_parameter
 {
@@ -29,10 +29,10 @@ struct referenced_default_parameter
 
 
 // forward declaration
-template <typename T                   ,// = referenced_default_parameter::counter_type,
-          class    ThreadPolicy        ,// = referenced_default_parameter::thread_policy,
-          class    DeleteHandlerPolicy ,// = referenced_default_parameter::delete_handle,
-          class    BaseClassT          >// = referenced_default_parameter::base_class>
+template <typename T                   = referenced_default_parameter::counter_type,
+          class    ThreadPolicy        = referenced_default_parameter::thread_policy,
+          class    DeleteHandlerPolicy = referenced_default_parameter::delete_handle,
+          class    BaseClassT          = referenced_default_parameter::base_class>
 class referenced;
 
 }  // namespace gen_prog

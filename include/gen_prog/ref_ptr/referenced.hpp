@@ -21,7 +21,7 @@
 
 namespace boost
 {
-template<class T> 
+template<class T>
 void checked_delete(T *);
 }
 
@@ -29,18 +29,18 @@ void checked_delete(T *);
 namespace gen_prog
 {
 
-template <typename T                    = referenced_default_parameter::counter_type,
-          class    ThreadPolicy         = referenced_default_parameter::thread_policy,
-          class    DeleteHandlerPolicy  = referenced_default_parameter::delete_handle,
-          class    BaseClassT           = referenced_default_parameter::base_class>
-class referenced : public referenced_definition<T, 
-                                                ThreadPolicy, 
-                                                DeleteHandlerPolicy, 
+template <typename T,
+          class    ThreadPolicy,
+          class    DeleteHandlerPolicy,
+          class    BaseClassT>
+class referenced : public referenced_definition<T,
+                                                ThreadPolicy,
+                                                DeleteHandlerPolicy,
                                                 BaseClassT>::base_class
 {
-    typedef referenced_definition<T, 
-                                  ThreadPolicy, 
-                                  DeleteHandlerPolicy, 
+    typedef referenced_definition<T,
+                                  ThreadPolicy,
+                                  DeleteHandlerPolicy,
                                   BaseClassT>                   definition;
 
 
@@ -70,7 +70,6 @@ public:
     const referenced & operator = (const referenced &) { return *this; }
 
 
-
     ///////////////////////////////////////////////////////////////////////////
     // reference counter interface
     ///////////////////////////////////////////////////////////////////////////
@@ -98,6 +97,7 @@ public:
         {
             observer_type * new_observer = new observer_type(this);
             new_observer->ref();
+
             if (thread_policy::compare_exchange(_observer, current_observer, new_observer))
             {
                 current_observer = new_observer;
@@ -109,7 +109,6 @@ public:
         }
         return current_observer;
     }
-
 
 
     ///////////////////////////////////////////////////////////////////////////
