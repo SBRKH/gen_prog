@@ -86,7 +86,7 @@ public:
 
     // other copy operator
     template <class Other>
-    observer_ptr & operator = (const observer_ptr<Other> & rp) { assign(op._observer); return *this; }
+    observer_ptr & operator = (const observer_ptr<Other> & op) { assign(op._observer); return *this; }
 
     // swap
     void swap(observer_ptr & op) { std::swap(_observer, op._observer); }

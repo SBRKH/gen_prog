@@ -11,16 +11,14 @@
 
 
 #include <gen_prog/config.hpp>
+#include <gen_prog/ref_ptr/empty_class.hpp>
+#include <gen_prog/ref_ptr/referenced_fwd.hpp>
+#include <gen_prog/ref_ptr/delete_handler_policy/no_delete_handler.hpp>
 
 
 
 namespace gen_prog
 {
-
-template <typename     T,
-          class     ThreadPolicy,
-          class     BaseClass>
-class Referenced;
 
 
 class observer_base
@@ -40,21 +38,39 @@ protected:
 };
 
 
+template <class ReferenceT>
+struct observer_definition
+{
+    typedef ReferenceT                                 referenced_type;
+
+    typedef typename referenced_type::counter_type              counter_type;
+    typedef typename referenced_type::thread_policy             thread_policy;
+
+    typedef typename thread_policy::template
+                     mutex_wrapper<observer_base>               observer_base_impl;
+
+    typedef referenced<counter_type,
+                       thread_policy,
+                       no_delete_handler,
+                       observer_base_impl>                       base_class;
+};
+
 
 template <class ReferenceT>
-class observer : public Referenced<typename ReferenceT::counter_type,
-                                   typename ReferenceT::thread_policy,
-                                   typename ReferenceT::thread_policy::template mutex_wrapper<observer_base> >
+class observer : public observer_definition<ReferenceT>::base_class
 {
+    typedef observer_definition<ReferenceT>                     definition;
+
 public:
-    typedef typename ReferenceT::counter_type                   counter_type;
-    typedef ReferenceT                                          referenced_type;
+    typedef typename definition::counter_type                   counter_type;
+    typedef typename definition::referenced_type                referenced_type;
+    typedef typename definition::thread_policy                  thread_policy;
+
     typedef referenced_type*                                    referenced_pointer_type;
-    typedef typename ReferenceT::thread_policy                  thread_policy;
 
 
 public:
-    observer(referenced_type * ref):_observed_ptr(ref) {}
+    observer(referenced_pointer_type ref):_observed_ptr(ref) {}
 
     void signal_delete()
     {

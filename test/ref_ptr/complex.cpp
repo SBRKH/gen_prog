@@ -14,7 +14,7 @@
 
 
 template <class T>
-class Node : public Referenced<unsigned int, T>
+class Node : public referenced<unsigned int, T>
 {
 public:
     ref_ptr<Node> _child;

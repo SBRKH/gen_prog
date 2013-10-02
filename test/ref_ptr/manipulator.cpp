@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( manipulator )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( pointer_assign_operator, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     ref_ptr<referenced_type> refPtr = ptr;
@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( pointer_assign_operator, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( assign_operator, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     ref_ptr<referenced_type> refPtr = ptr;
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( assign_operator, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( other_pointer_assign_operator, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
     typedef Derived<T> derived_type;
 
     derived_type * ptr = new derived_type;
@@ -52,7 +52,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( other_pointer_assign_operator, T, ThreadPolicies 
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( other_assign_operator, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
     typedef Derived<T> derived_type;
 
     derived_type * ptr = new derived_type;
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( other_assign_operator, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( swap, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr1 = new referenced_type;
     referenced_type * ptr2 = new referenced_type;

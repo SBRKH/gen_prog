@@ -12,14 +12,9 @@
 
 
 
+#include <gen_prog/ref_ptr/observer_ptr.hpp>
 #include <gen_prog/ref_ptr/ref_ptr.hpp>
-#include <gen_prog/ref_ptr/Referenced.hpp>
-
-//#include <gen_prog/ref_ptr/thread_policy/boost_atomic.hpp>
-//#include <gen_prog/ref_ptr/thread_policy/boost_mutex.hpp>
-#include <gen_prog/ref_ptr/thread_policy/single_thread.hpp>
-//#include <gen_prog/ref_ptr/thread_policy/std_atomic.hpp>
-
+#include <gen_prog/ref_ptr/referenced.hpp>
 
 
 

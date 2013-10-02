@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( accessor )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( implicite_conversion, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     ref_ptr<referenced_type> refPtr = ptr;
@@ -29,7 +29,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( implicite_conversion, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( get, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     ref_ptr<referenced_type> refPtr = ptr;
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( get, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( valid, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
     typedef Derived<T> derived_type;
 
     ref_ptr<referenced_type> refPtr;

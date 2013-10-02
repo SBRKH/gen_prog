@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_SUITE( destructor )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( default_destructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     BOOST_CHECK_EQUAL( ptr->ref_count(), 0 );

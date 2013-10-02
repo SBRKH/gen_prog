@@ -18,7 +18,7 @@ BOOST_AUTO_TEST_SUITE( constructor )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( default_constructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     ref_ptr<referenced_type> refPtr;
     BOOST_CHECK_EQUAL(refPtr.get(), (void*)0);
@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( default_constructor, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( pointer_constructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     BOOST_CHECK_EQUAL( ptr->ref_count(), 0 );
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( pointer_constructor, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( copy_constructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
 
     referenced_type * ptr = new referenced_type;
     BOOST_CHECK_EQUAL( ptr->ref_count(), 0 );
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( copy_constructor, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( other_pointer_constructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
     typedef Derived<T> derived_type;
 
 
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE_TEMPLATE( other_pointer_constructor, T, ThreadPolicies )
 
 BOOST_AUTO_TEST_CASE_TEMPLATE( other_copy_constructor, T, ThreadPolicies )
 {
-    typedef Referenced<unsigned int, T> referenced_type;
+    typedef referenced<unsigned int, T> referenced_type;
     typedef Derived<T> derived_type;
 
 

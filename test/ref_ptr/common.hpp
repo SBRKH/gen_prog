@@ -51,7 +51,7 @@ typedef boost::mpl::vector<single_thread
 
 
 template <typename T>
-class Derived : public Referenced<unsigned int, T>
+class Derived : public referenced<unsigned int, T>
 {};
 
 

@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////////
-/// \file gen_prog/thread_policy/ref_ptr/boost_atomic.hpp
+/// \file gen_prog/ref_ptr/thread_policy/boost_atomic.hpp
 //
 //  Copyright 2013 David Callu. Distributed under the Boost
 //  Software License, Version 1.0. (See accompanying file
