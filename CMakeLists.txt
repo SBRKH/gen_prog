@@ -77,11 +77,15 @@ ENDIF(UNIX AND NOT WIN32 AND NOT APPLE)
 
 
 
-include_directories(${gen_prog_SOURCE_DIR}/include)
+
+set(GEN_PROG_DIR ${gen_prog_SOURCE_DIR})
+set(GEN_PROG_INC_DIR ${GEN_PROG_DIR}/include/gen_prog)
+
+include_directories(${GEN_PROG_DIR}/include)
 #------------------------------------------------------------------------------
 # define subdirectories
 #------------------------------------------------------------------------------
-#add_subdirectory(src)
+add_subdirectory(src)
 
 if(Boost_FOUND)
 	add_subdirectory(test)
