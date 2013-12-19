@@ -9,6 +9,8 @@
 #define GEN_PROG__REF_PTR__REFERENCED_FWD_HPP_
 
 
+#include <gen_prog/ref_ptr/config.hpp>
+
 
 namespace gen_prog
 {
@@ -21,10 +23,10 @@ struct empty_class {};
 
 struct referenced_default_parameter
 {
-    typedef unsigned int        counter_type;
-    typedef single_thread       thread_policy;
-    typedef no_delete_handler   delete_handle;
-    typedef empty_class         base_class;
+    typedef GEN_PROG__REF_PTR__DEFAULT_COUNTER_TYPE	        	counter_type;
+    typedef GEN_PROG__REF_PTR__DEFAULT_THREAD_POLICY       		thread_policy;
+    typedef GEN_PROG__REF_PTR__DEFAULT_DELETE_HANDLER_POLICY   	delete_handle;
+    typedef empty_class         								base_class;
 };
 
 
