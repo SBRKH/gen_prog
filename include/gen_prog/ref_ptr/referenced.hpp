@@ -11,7 +11,6 @@
 
 
 #include <gen_prog/config.hpp>
-#include <gen_prog/ref_ptr/empty_class.hpp>
 #include <gen_prog/ref_ptr/observer.hpp>
 #include <gen_prog/ref_ptr/referenced_fwd.hpp>
 #include <gen_prog/ref_ptr/referenced_definition.hpp>
