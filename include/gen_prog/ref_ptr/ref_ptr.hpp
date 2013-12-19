@@ -47,24 +47,26 @@ public:
     ref_ptr(): _ptr(GEN_PROG__NULL) {}
 
     // pointer constructor
-    ref_ptr(pointer_type ptr): _ptr(ptr) { constructor_ref(); }
+    ref_ptr(pointer_type ptr): _ptr( constructor_ref(ptr) ) {}
 
     // copy constructor
-    ref_ptr(const ref_ptr & rp): _ptr(rp._ptr) { constructor_ref(); }
+    ref_ptr(const ref_ptr & rp): _ptr( constructor_ref(rp._ptr) ) {}
 
     // other pointer constructor
     template <class Other>
-    ref_ptr(Other * ptr): _ptr(ptr) { constructor_ref(); }
+    ref_ptr(Other * ptr): _ptr( constructor_ref(ptr) ) {}
 
     // other copy constructor
     template <class Other>
-    ref_ptr(const ref_ptr<Other> & rp): _ptr(rp.get()) { constructor_ref(); }
+    ref_ptr(const ref_ptr<Other> & rp): _ptr( constructor_ref(rp.get()) ) {}
 
 
     // other copy constructor
     template <class Other>
     ref_ptr(const observer_ptr<Other> & op): _ptr(GEN_PROG__NULL)
     {
+        // try to use boost::is_base_of and static dispatch
+
         typedef typename referenced_type::observer_type observer_type;
 
         observer_type * observer = dynamic_cast<observer_type *>(op.get_observer_base());
@@ -77,7 +79,7 @@ public:
 
 
         T * castedLocalPtr = dynamic_cast<T*>(localPtr);
-        if (castedLocalPtr) assign(castedLocalPtr);
+        if (castedLocalPtr) _ptr = constructor_ref(castedLocalPtr);
 
         localPtr->unref();
     }
@@ -138,8 +140,8 @@ public:
 
 
 private:
-    void constructor_ref()
-    { if (_ptr) _ptr->ref(); }
+    pointer_type constructor_ref(pointer_type ptr)
+    { if (ptr) ptr->ref(); return ptr;}
 
     void assign(pointer_type ptr)
     {
@@ -152,6 +154,11 @@ private:
 
         if (previous_ptr) previous_ptr->unref();
     }
+
+
+
+
+
 
 
 private:

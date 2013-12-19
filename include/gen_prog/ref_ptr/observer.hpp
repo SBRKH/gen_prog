@@ -30,6 +30,7 @@ public:
     virtual void do_ref() = 0;
     virtual void do_unref() = 0;
 
+
 protected:
     observer_base(const observer_base & other) {}
     const observer_base & operator = (const observer_base & other) { return *this; }
@@ -42,16 +43,16 @@ struct observer_definition
 {
     typedef ReferenceT                                 referenced_type;
 
-    typedef typename referenced_type::counter_type              counter_type;
-    typedef typename referenced_type::thread_policy             thread_policy;
+    typedef typename referenced_type::counter_type     counter_type;
+    typedef typename referenced_type::thread_policy    thread_policy;
 
     typedef typename thread_policy::template
-                     mutex_wrapper<observer_base>               observer_base_impl;
+                     mutex_wrapper<observer_base>      mutex_impl;
 
     typedef referenced<counter_type,
                        thread_policy,
                        no_delete_handler,
-                       observer_base_impl>                       base_class;
+                       mutex_impl>                     base_class;
 };
 
 

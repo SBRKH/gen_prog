@@ -61,7 +61,7 @@ public:
     observer_ptr(const observer_ptr<Other> & op): _observer(GEN_PROG__NULL) { assign(op._observer); }
 
     // destructor
-    ~observer_ptr() { if (_observer) _observer->do_unref(); }
+    ~observer_ptr() { assign( static_cast<observer_base*>(GEN_PROG__NULL) ); }
 
 
     ///////////////////////////////////////////////////////////////////////////
@@ -112,12 +112,11 @@ protected:
 
     observer_base * get_observer_base() const { return _observer; }
 
+
 private:
     void assign(pointer_type ptr)
     {
-        if (_observer) _observer->do_unref();
-        _observer = ptr ? ptr->get_or_create_observer() : GEN_PROG__NULL;
-        if (_observer) _observer->do_ref();
+        assign(static_cast<observer_base*>(ptr ? ptr->get_or_create_observer() : GEN_PROG__NULL));
     }
     void assign(observer_base * observer)
     {
