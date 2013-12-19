@@ -37,6 +37,8 @@ struct std_atomic
         lock_guard(const MutexWrapperT & wrapper): _locker(wrapper._mutex) {}
         std::lock_guard<std::mutex> _locker;
     };
+
+
     template <typename T>
     struct thread_safe_type { typedef std::atomic<T> type; };
 
@@ -47,6 +49,15 @@ struct std_atomic
     static T decrement(std::atomic<T>  & t) { return t.fetch_sub(1, std::memory_order_relaxed)-1; }
 
     template <typename T>
+    static T decrement_before_delete(std::atomic<T> & t)
+    {
+        T new_value = t.fetch_sub(1, std::memory_order_release)-1;
+        if ( ! new_value )
+            std::atomic_thread_fence(std::memory_order_acquire);
+        return new_value;
+    }
+
+    template <typename T>
     static T get(const std::atomic<T> & t) { return t.load(std::memory_order_relaxed); }
 
     template <typename T>
@@ -54,7 +65,7 @@ struct std_atomic
 
     template <typename T>
     static bool compare_exchange(std::atomic<T> & t, T & expected, const T & value)
-    { return t.compare_exchange_strong(expected, value); }
+    { return t.compare_exchange_strong(expected, value, std::memory_order_acq_rel, std::memory_order_relaxed); }
 };
 
 } // namespace gen_prog

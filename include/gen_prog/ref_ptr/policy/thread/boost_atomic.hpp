@@ -39,6 +39,7 @@ struct boost_atomic
         boost::lock_guard<boost::mutex> _locker;
     };
 
+
     template <typename T>
     struct thread_safe_type { typedef boost::atomic<T> type; };
 
@@ -49,6 +50,15 @@ struct boost_atomic
     static T decrement(boost::atomic<T> & t) { return t.fetch_sub(1, boost::memory_order_relaxed)-1; }
 
     template <typename T>
+    static T decrement_before_delete(boost::atomic<T> & t)
+    {
+        T new_value = t.fetch_sub(1, boost::memory_order_release)-1;
+        if ( ! new_value )
+            boost::atomic_thread_fence(boost::memory_order_acquire);
+        return new_value;
+    }
+
+    template <typename T>
     static T get(boost::atomic<T> & t) { return t.load(boost::memory_order_relaxed); }
 
     template <typename T>
@@ -56,7 +66,7 @@ struct boost_atomic
 
     template <typename T>
     static bool compare_exchange(boost::atomic<T> & t, T & expected, const T & value)
-    { return t.compare_exchange_strong(expected, value, boost::memory_order_relaxed); } // TODO good memory order ??
+    { return t.compare_exchange_strong(expected, value, boost::memory_order_acq_rel, boost::memory_order_relaxed); }
 };
 
 } // namespace gen_prog

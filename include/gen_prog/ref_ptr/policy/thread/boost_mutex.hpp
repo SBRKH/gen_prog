@@ -76,8 +76,17 @@ struct boost_mutex
     }
 
     template <typename T>
+    static T decrement_before_delete(MutexGuardElement<T> & t)
+    {
+        return decrement(t);
+    }
+
+    template <typename T>
     static T get(const MutexGuardElement<T> & t)
     {
+#ifdef GEN_PROG__USE_LESS_32_BIT_PROCESSOR
+        boost::lock_guard<boost::mutex> locker(t._mutex);
+#endif
         return t._element;
     }
 

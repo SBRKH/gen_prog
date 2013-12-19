@@ -35,6 +35,9 @@ struct single_thread
     static T decrement(T & t) { return --t; }
 
     template <typename T>
+    static T decrement_before_delete(T & t) { return decrement(t); }
+
+    template <typename T>
     static T get(T & t) { return t; }
 
     template <typename T>

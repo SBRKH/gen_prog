@@ -75,7 +75,7 @@ public:
     counter_type ref() const { return thread_policy::increment(_counter); }
     counter_type unref() const
     {
-        counter_type newRefCount = thread_policy::decrement(_counter);
+        counter_type newRefCount = thread_policy::decrement_before_delete(_counter);
         if (newRefCount == 0) this->delete_handler_wrapper::do_delete( this );
         return newRefCount;
     }
