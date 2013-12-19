@@ -13,7 +13,6 @@
 #include <boost/checked_delete.hpp>
 
 #include <gen_prog/config.hpp>
-#include <gen_prog/ref_ptr/empty_class.hpp>
 #include <gen_prog/ref_ptr/referenced_fwd.hpp>
 
 
@@ -23,27 +22,31 @@ namespace gen_prog
 
 struct static_delete_handler
 {
-    // base class that provide delete fonctionality
-    template <class ReferencedT, typename T, class ThreadPolicy>
-    class deleter : public referenced<T, ThreadPolicy>
+    template <class ReferencedT, typename T, class ThreadPolicy, class BaseClassT>
+    class wrapper : public BaseClassT
     {
-        typedef ReferencedT referenced_type;
+        typedef ReferencedT         referenced_type;
 
-        virtual void do_delete(referenced_type * ref)
+        typedef ThreadPolicy        thread_policy;
+        typedef BaseClassT          base_class;
+
+
+    public:
+        // base class that provide delete functionality
+        struct delete_handler : public referenced<T, ThreadPolicy, no_delete_handler, empty_class>
         {
-            boost::checked_delete(ref);
-        }
-    };
-
-
-    // wrapper that containe the deleter
-    template <class ReferencedT, class ThreadPolicy, class BaseClassT>
-    class type : public BaseClassT
-    {
-        typedef ReferencedT referenced_type;
-
-        typedef deleter<referenced_type>    deleter_type;
-        typedef ref_ptr<deleter_type> d     eleter_ref_ptr;
+            public:
+                void do_delete(const wrapper * x)
+                {
+                    // from boost/checked_delete.hpp
+                    // can't define boost::checked_delete as friend in wrapper with VC 2003 .NET
+                    // so just copy code for now (hate Microsoft)
+                    typedef char type_must_be_complete[ sizeof(wrapper)? 1: -1 ];
+                    (void) sizeof(type_must_be_complete);
+                    delete x;
+                }
+        };
+        typedef ref_ptr<delete_handler> delete_handler_ref_ptr;
 
 
     public:
@@ -54,12 +57,12 @@ struct static_delete_handler
         {}
     protected:
         // Constructor
-        virtual ~wrapper()
+        virtual ~wrapper() {}
 
 
     public:
         // Operator
-        wrapper & operator = (const wrapper & other): base_class(other),
+        wrapper & operator = (const wrapper & other)
         {
             base_class::operator=(other);
             return *this;
@@ -67,7 +70,7 @@ struct static_delete_handler
 
 
         // Manipulator
-        static bool set_deleter( deleter_type * dh )
+        static bool set_delete_handler( delete_handler * dh )
         {
             if (dh)
             {
@@ -82,22 +85,20 @@ struct static_delete_handler
 
 
         // Accessor
-        static deleter_type * get_deleter()
-        {
-            return get_static_ref_ptr();
-        }
+        static delete_handler * get_delete_handler()
+        { return get_static_ref_ptr(); }
 
 
     protected:
-        static void do_delete(referenced_type * ref) const
-        { get_static_ref_ptr()->do_delete(ref); }
+        static void do_delete(const referenced_type * ref)
+        { get_delete_handler()->do_delete( static_cast<const wrapper*>(ref) ); }
 
 
     private:
-        static deleter_ref_ptr & get_static_ref_ptr()
-        (
-            static deleter_ref_ptr s_deleter( new deleter_type );
-            return s_deleter;
+        static delete_handler_ref_ptr & get_static_ref_ptr()
+        {
+            static delete_handler_ref_ptr s_delete_handler( new delete_handler );
+            return s_delete_handler;
         }
     };
 };

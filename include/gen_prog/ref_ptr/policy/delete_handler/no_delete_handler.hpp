@@ -13,7 +13,6 @@
 #include <boost/checked_delete.hpp>
 
 #include <gen_prog/config.hpp>
-#include <gen_prog/ref_ptr/empty_class.hpp>
 #include <gen_prog/ref_ptr/ref_ptr.hpp>
 #include <gen_prog/ref_ptr/referenced_fwd.hpp>
 
@@ -48,7 +47,7 @@ struct no_delete_handler
                     // from boost/checked_delete.hpp
                     // can't define boost::checked_delete as friend in wrapper with VC 2003 .NET
                     // so just copy code for now (hate Microsoft)
-                    typedef char type_must_be_complete[ sizeof(T)? 1: -1 ];
+                    typedef char type_must_be_complete[ sizeof(wrapper)? 1: -1 ];
                     (void) sizeof(type_must_be_complete);
                     delete x;
                 }
@@ -64,7 +63,7 @@ struct no_delete_handler
         wrapper(const wrapper & other): base_class(other)
         {}
     protected:
-        friend delete_handler;
+        friend struct delete_handler;
         // Destructor
         virtual ~wrapper() {}
 
