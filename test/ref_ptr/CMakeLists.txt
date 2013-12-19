@@ -14,7 +14,6 @@ set(TARGET_NAME smart_ptr_test)
 include(UseBoost)
 
 
-
 add_definitions(-DBOOST_TEST_DYN_LINK)
 
 
@@ -43,21 +42,15 @@ endif()
 
 set(REF_PTR_TEST_SRC
         accessor.cpp
-        constructor.cpp
         complex.cpp
+        constructor.cpp
         destructor.cpp
-        manipulator.cpp)
+        manipulator.cpp
+        observer_ptr.cpp)
 
 #------------------------------------------------------------------------------
 # build commands
 #------------------------------------------------------------------------------
 add_executable( ${TARGET_NAME} ${REF_PTR_TEST_SRC} )
 
-
 target_link_libraries( ${TARGET_NAME} ${Boost_LIBRARIES} )
-
-
-#------------------------------------------------------------------------------
-# install command
-#------------------------------------------------------------------------------
-#install_library( ${TARGET_NAME} INCLUDE_DIRS ${OSGEXPLORER_INCLUDE_DIR} INSTALL_PDB TRUE )
