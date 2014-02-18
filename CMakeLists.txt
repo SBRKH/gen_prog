@@ -69,6 +69,14 @@ endif()
 
 
 
+if(${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") 
+  option(GEN_PROG__USE_GCOV "Enable code coverage test with gcov" 0)
+
+  if(GEN_PROG__USE_GCOV)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+    endif()
+endif()
+
 IF(UNIX AND NOT WIN32 AND NOT APPLE)
   IF(CMAKE_SIZEOF_VOID_P MATCHES "8")
         SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
