@@ -111,7 +111,7 @@ public:
         std::swap(_ptr, rp._ptr);
     }
 
-    // swap
+    // reset
     void reset()
     {
         this_type().swap(*this);
@@ -156,11 +156,6 @@ private:
     }
 
 
-
-
-
-
-
 private:
     pointer_type _ptr;
 };
@@ -170,4 +165,6 @@ private:
 
 
 #endif // ** GEN_PROG__REF_PTR__REF_PTR_HPP_ ** //
+
+
 // End of file
