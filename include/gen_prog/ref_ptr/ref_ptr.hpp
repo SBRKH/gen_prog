@@ -61,7 +61,7 @@ public:
     ref_ptr(const ref_ptr<Other> & rp): _ptr( constructor_ref(rp.get()) ) {}
 
 
-    // other copy constructor
+    // other observer constructor
     template <class Other>
     ref_ptr(const observer_ptr<Other> & op): _ptr(GEN_PROG__NULL)
     {

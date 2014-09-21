@@ -20,28 +20,32 @@ namespace gen_prog
 {
 
 
+/// base class for any observer class.
+/// This base class define interface (abstract function) required in observer class template
 class observer_base
 {
 public:
     observer_base() {}
 
+    /// @return true if observed pointer is not valid or NULL, false otherwise
     virtual bool expired() const = 0;
 
+    /// increment reference
     virtual void do_ref() = 0;
     virtual void do_unref() = 0;
 
 
 protected:
-    observer_base(const observer_base & other) {}
-    const observer_base & operator = (const observer_base & other) { return *this; }
+    observer_base(const observer_base & /*other*/) {}
+    const observer_base & operator = (const observer_base & /*other*/) { return *this; }
     virtual ~observer_base() {}
 };
 
 
-template <class ReferenceT>
+template <class ReferencedT>
 struct observer_definition
 {
-    typedef ReferenceT                                 referenced_type;
+    typedef ReferencedT                                referenced_type;
 
     typedef typename referenced_type::counter_type     counter_type;
     typedef typename referenced_type::thread_policy    thread_policy;
@@ -56,10 +60,10 @@ struct observer_definition
 };
 
 
-template <class ReferenceT>
-class observer : public observer_definition<ReferenceT>::base_class
+template <class ReferencedT>
+class observer : public observer_definition<ReferencedT>::base_class
 {
-    typedef observer_definition<ReferenceT>                     definition;
+    typedef observer_definition<ReferencedT>                    definition;
 
 
 public:

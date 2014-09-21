@@ -1,9 +1,9 @@
 ///////////////////////////////////////////////////////////////////////////////
 /// \file gen_prog/ref_ptr/observer_ptr.hpp
-//
-//  Copyright 2013 David Callu. Distributed under the Boost
-//  Software License, Version 1.0. (See accompanying file
-//  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+///
+///  Copyright 2013 David Callu. Distributed under the Boost
+///  Software License, Version 1.0. (See accompanying file
+///  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef GEN_PROG__REF_PTR__OBSERVER_PTR_HPP_
 #define GEN_PROG__REF_PTR__OBSERVER_PTR_HPP_
@@ -34,73 +34,75 @@ public:
     typedef ref_ptr<T>                                    ref_ptr_type;
 
     ///////////////////////////////////////////////////////////////////////////
-    // CTOR / DTOR
+    /// CTOR / DTOR
     ///////////////////////////////////////////////////////////////////////////
-    // default constructor
+    /// default constructor
     observer_ptr(): _observer(GEN_PROG__NULL) {}
 
-    // pointer constructor
+    /// pointer constructor
     observer_ptr(pointer_type ptr): _observer(GEN_PROG__NULL) { assign(ptr); }
 
-    // ref_ptr constructor
+    /// ref_ptr constructor
     observer_ptr(const ref_ptr_type & rp): _observer(GEN_PROG__NULL) { assign(rp.get()); }
 
-    // copy constructor
+    /// copy constructor
     observer_ptr(const observer_ptr & op): _observer(GEN_PROG__NULL) { assign(op._observer); }
 
-    // other pointer constructor
+    /// other pointer constructor
     template <class Other>
     observer_ptr(Other * ptr): _observer(GEN_PROG__NULL) { assign(ptr); }
 
-    // other ref_ptr constructor
+    /// other ref_ptr constructor
     template <class Other>
     observer_ptr(const ref_ptr<Other> & rp): _observer(GEN_PROG__NULL) { assign(rp.get()); }
 
-    // other copy constructor
+    /// other copy constructor
     template <class Other>
     observer_ptr(const observer_ptr<Other> & op): _observer(GEN_PROG__NULL) { assign(op._observer); }
 
-    // destructor
+    /// destructor
     ~observer_ptr() { assign( static_cast<observer_base*>(GEN_PROG__NULL) ); }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // Manipulator
+    /// Manipulator
     ///////////////////////////////////////////////////////////////////////////
-    // pointer copy operator
+    /// pointer copy operator
     observer_ptr & operator = (pointer_type ptr) { assign(ptr); return *this; }
 
-    // copy operator
+    /// copy operator
     observer_ptr & operator = (const ref_ptr_type & rp) { assign(rp._ptr); return *this; }
 
-    // copy operator
+    /// copy operator
     observer_ptr & operator = (const observer_ptr & op) { assign(op._observer); return *this; }
 
-    // other pointer copy operator
+    /// other pointer copy operator
     template <class Other>
     observer_ptr & operator = (Other * ptr) { assign(ptr); return *this; }
 
-    // other copy operator
+    /// other copy operator
     template <class Other>
     observer_ptr & operator = (const ref_ptr<Other> & rp) { assign(rp.get()); return *this; }
 
-    // other copy operator
+    /// other copy operator
     template <class Other>
     observer_ptr & operator = (const observer_ptr<Other> & op) { assign(op._observer); return *this; }
 
-    // swap
+    /// swap
     void swap(observer_ptr & op) { std::swap(_observer, op._observer); }
-    // reset
+    /// reset
     void reset() { this_type().swap(*this); }
 
 
     ///////////////////////////////////////////////////////////////////////////
-    // Accessor
+    /// Accessor
     ///////////////////////////////////////////////////////////////////////////
-    // lock observed pointer and fill \"rp\" with it
-    // @return true if observed pointer is still valid, false otherwise
+
+    /// lock observed pointer and fill \"rp\" with it
+    /// @return true if observed pointer is still valid, false otherwise
     bool lock(ref_ptr_type & rp) const { rp = ref_ptr_type(*this); return rp.valid(); }
 
+    /// @return true if observed pointer is not valid or NULL, false otherwise
     bool expired() const { return _observer ? _observer->expired() : true; }
 
 

@@ -24,10 +24,12 @@ template<class T>
 void checked_delete(T *);
 }
 
-
 namespace gen_prog
 {
 
+///
+///
+///
 template <typename T,
           class    ThreadPolicy,
           class    DeleteHandlerPolicy,
@@ -63,24 +65,53 @@ private:
 
 
 public:
+    ///
+    /// \brief referenced
+    ///
     referenced(): _counter(0), _observer(GEN_PROG__NULL) {}
+
+    ///
+    /// \brief referenced
+    ///
     referenced(const referenced &): _counter(0), _observer(GEN_PROG__NULL) {}
 
+    ///
+    /// \brief operator =
+    ///
     const referenced & operator = (const referenced &) { return *this; }
 
 
     ///////////////////////////////////////////////////////////////////////////
     // reference counter interface
     ///////////////////////////////////////////////////////////////////////////
+
+    ///
+    /// \brief increment reference counter
+    /// \return reference counter
+    ///
     counter_type ref() const { return thread_policy::increment(_counter); }
+
+    ///
+    /// \brief decrement reference counter, delete this if counter hit 0
+    /// \return reference counter
+    ///
     counter_type unref() const
     {
         counter_type newRefCount = thread_policy::decrement_before_delete(_counter);
         if (newRefCount == 0) this->delete_handler_wrapper::do_delete( this );
         return newRefCount;
     }
+
+    ///
+    /// \brief decrement reference counter but don't delete this if counter hit 0
+    /// \return reference counter
+    ///
     counter_type unref_nodelete() const { return thread_policy::decrement(_counter); }
 
+    ///
+    /// \brief ref_count
+    /// \return reference counter
+    ///
     counter_type ref_count() const { return thread_policy::get(_counter); }
 
 
@@ -88,7 +119,15 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     // observer interface
     ///////////////////////////////////////////////////////////////////////////
+    /// \brief get_observer
+    /// \return observer on this
+    ///
     observer_type * get_observer() const { return thread_policy::get(_observer); }
+
+    ///
+    /// \brief create observer on this if not already done
+    /// \return observer on this
+    ///
     observer_type * get_or_create_observer()
     {
         observer_type * current_observer = get_observer();
