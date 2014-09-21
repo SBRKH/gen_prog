@@ -97,6 +97,7 @@ public:
     ///////////////////////////////////////////////////////////////////////////
     /// Accessor
     ///////////////////////////////////////////////////////////////////////////
+//    pointer_type get() { return _observer ? static_cast< observer<T> >(_observer) : GEN_PROG__NULL; }
 
     /// lock observed pointer and fill \"rp\" with it
     /// @return true if observed pointer is still valid, false otherwise
