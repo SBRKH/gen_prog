@@ -80,7 +80,7 @@ struct no_delete_handler
     public:
         // Manipulator
         // for consistance with other delete handler policy
-        bool set_delete_handler( delete_handler * dh )
+        bool set_delete_handler( delete_handler * )
         { return false; }
 
         // Accessor

@@ -113,8 +113,8 @@ public:
 
 
 protected:
-    observer(const observer & other): _observed_ptr(GEN_PROG__NULL) {}
-    const observer & operator = (const observer & other) { return *this; }
+    observer(const observer &): _observed_ptr(GEN_PROG__NULL) {}
+    const observer & operator = (const observer &) { return *this; }
     virtual ~observer() {}
 
 
