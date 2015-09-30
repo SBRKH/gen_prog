@@ -75,10 +75,24 @@ public:
     ///
     referenced(const referenced &): _counter(0), _observer(GEN_PROG__NULL) {}
 
+#ifdef GEN_PROG__CXX11_AVAILABLE
+    ///
+    /// \brief referenced
+    ///
+    referenced(referenced && other): referenced() {}
+#endif
+
     ///
     /// \brief operator =
     ///
     const referenced & operator = (const referenced &) { return *this; }
+
+#ifdef GEN_PROG__CXX11_AVAILABLE
+    ///
+    /// \brief referenced
+    ///
+    const referenced & operator = (referenced &&) { return *this; }
+#endif
 
 
     ///////////////////////////////////////////////////////////////////////////
