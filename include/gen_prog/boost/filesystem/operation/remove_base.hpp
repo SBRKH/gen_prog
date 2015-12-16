@@ -1,3 +1,5 @@
+#ifndef gen_prog__boost__filesystem__remove_base_hpp
+#define gen_prog__boost__filesystem__remove_base_hpp
 
 
 
@@ -8,7 +10,7 @@
 namespace gp {
 namespace filesystem {
 
-boost::filesystem::path remove_base(const boost::filesystem::path & pathIn, const boost::filesystem::path & baseIn)
+inline boost::filesystem::path remove_base(const boost::filesystem::path & pathIn, const boost::filesystem::path & baseIn)
 {
     boost::filesystem::path path = pathIn.generic_string();
     boost::filesystem::path base = baseIn.generic_string();
@@ -33,3 +35,5 @@ boost::filesystem::path remove_base(const boost::filesystem::path & pathIn, cons
 
 } // namespace filesystem
 } // namespace gp
+
+#endif // ** gen_prog__boost__filesystem__remove_base_hpp ** //
