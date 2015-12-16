@@ -8,8 +8,11 @@
 namespace gp {
 namespace filesystem {
 
-boost::filesystem::path remove_base(const boost::filesystem::path & path, const boost::filesystem::path & base)
+boost::filesystem::path remove_base(const boost::filesystem::path & pathIn, const boost::filesystem::path & baseIn)
 {
+    boost::filesystem::path path = pathIn.generic_string();
+    boost::filesystem::path base = baseIn.generic_string();
+
     boost::filesystem::path::iterator itPath = path.begin();
     boost::filesystem::path::iterator itBase = base.begin();
     while ((path.end() != itPath) && (base.end() != itBase) && (*itPath == *itBase))
