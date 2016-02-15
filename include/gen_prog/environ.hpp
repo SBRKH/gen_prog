@@ -69,15 +69,13 @@ struct StringToArithmeticConvert
         return boost::lexical_cast<OutputT>(value);
     }
 };
-template <typename OutputT>
 struct StringPassThrough
 {
-    static OutputT apply(const char * value)
+    static std::string apply(const char * value)
     {
-        return boost::lexical_cast<OutputT>(value);
+        return value;
     }
 };
-template <typename OutputT>
 struct ErrorConvert
 {
 };
@@ -86,13 +84,13 @@ struct ErrorConvert
 template <typename OutputT>
 struct convert_dispatcher
 {
-    using type = std::conditional< std::is_arithmetic<OutputT>,
-                                   StringToArithmeticConvert<OutputT>,
-                                   std::conditional< std::is_same<OutputT, std::string>,
-                                                     StringPassThrough,
-                                                     ErrorConvert
-                                                   >
-                                 >;
+    using type = std::conditional_t< std::is_arithmetic<OutputT>::value,
+                                     StringToArithmeticConvert<OutputT>,
+                                     std::conditional_t< std::is_same<OutputT, std::string>::value,
+                                                         StringPassThrough,
+                                                         ErrorConvert
+                                                       >
+                                   >;
 };
 
 
@@ -108,7 +106,7 @@ T get(const char * name)
         BOOST_THROW_EXCEPTION(exceptions::InvalidParameter("name", "should not be null"));
     }
 
-    const char valueStr = getenv(name);
+    const char * valueStr = getenv(name);
 
     if (nullptr == valueStr)
     {
@@ -118,6 +116,16 @@ T get(const char * name)
     using ConvertOperator = typename detail::convert_dispatcher<T>::type;
 
     return ConvertOperator::apply(valueStr);
+}
+
+inline bool exist(const char * name)
+{
+    if (nullptr == name)
+    {
+        BOOST_THROW_EXCEPTION(exceptions::InvalidParameter("name", "should not be null"));
+    }
+
+    return (nullptr != getenv(name));
 }
 
 } // namespace environ
