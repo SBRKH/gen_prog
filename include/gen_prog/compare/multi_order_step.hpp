@@ -1,6 +1,10 @@
 #ifndef gen_prog__compare__multi_order_step_hpp
 #define gen_prog__compare__multi_order_step_hpp
 
+#include <gen_prog/compare/functor.hpp>
+
+
+
 namespace gen_prog {
 namespace compare {
 
@@ -25,11 +29,13 @@ struct multi_order_step
 };
 
 
-template <class OrderOperatorT, class CompareOperatorT >
-multi_order_step<OrderOperatorT, CompareOperatorT>
-make_multi_order_step(OrderOperatorT orderOperator, CompareOperatorT compareOperator)
+template <class OrderOperatorT, class AccessorT >
+multi_order_step<OrderOperatorT, member_compare_functor<AccessorT> >
+make_multi_order_step(OrderOperatorT orderOperator, AccessorT accessor)
 {
-    return multi_order_step<OrderOperatorT, CompareOperatorT>{orderOperator, compareOperator};
+    using multi_order_step_type = multi_order_step<OrderOperatorT, member_compare_functor<AccessorT> >;
+
+    return multi_order_step_type{orderOperator, make_member_compare_functor(accessor)};
 }
 
 } // namespace compare
