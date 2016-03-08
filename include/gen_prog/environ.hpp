@@ -118,6 +118,19 @@ T get(const char * name)
     return ConvertOperator::apply(valueStr);
 }
 
+template <typename T>
+T get_or_default(const char * name, const T & defaultValue)
+{
+    try
+    {
+        return get<T>(name);
+    }
+    catch(exceptions::VariableNotDefined &)
+    {
+    }
+    return defaultValue;
+}
+
 inline bool exist(const char * name)
 {
     if (nullptr == name)
