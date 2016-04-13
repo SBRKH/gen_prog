@@ -128,6 +128,10 @@ T get_or_default(const char * name, const T & defaultValue)
     catch(exceptions::VariableNotDefined &)
     {
     }
+    catch(boost::bad_lexical_cast &)
+    {
+    }
+
     return defaultValue;
 }
 
