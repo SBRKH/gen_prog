@@ -20,6 +20,8 @@ class Exception : public std::exception
 {
 public:
     Exception() = default;
+    virtual ~Exception() = default;
+
 
     virtual const char* what() const throw() { return _message.c_str(); }
 
