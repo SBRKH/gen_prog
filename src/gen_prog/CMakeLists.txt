@@ -37,16 +37,16 @@ set(
 
 cmut_define_output_dirs()
 add_library(
-    ${target}
-    ${${target}_HEADERS}
+    ${target} INTERFACE
+#    ${${target}_HEADERS}
 )
-set_target_properties(${target}
-    PROPERTIES
-        LINKER_LANGUAGE CXX
-    )
+#set_target_properties(${target}
+#    PROPERTIES
+#        LINKER_LANGUAGE CXX
+#    )
 
 
-cmut__target__generate_export_header(${target})
+#cmut__target__generate_export_header(${target})
 cmut__target__set_library_version(${target} ${PROJECT_VERSION})
 
 
@@ -56,13 +56,9 @@ cmut__build__msvc__nominmax(${target})
 
 target_include_directories(
     ${target}
-    PUBLIC
+    INTERFACE
         "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
         )
-
-#target_link_libraries(
-#    ${target}
-#)
 
 
 #######################################################################################################################
@@ -74,3 +70,4 @@ target_include_directories(
 #######################################################################################################################
 
 cmut__install__install_library(${target})
+
