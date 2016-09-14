@@ -122,11 +122,11 @@ if(DOXYGEN_FOUND)
 #    add_subdirectory(doc)
 endif()
 
-include(CTest)
-if(BUILD_TESTING)
-    enable_testing()
-    add_subdirectory(test)
-endif()
+#include(CTest)
+#if(BUILD_TESTING)
+#    enable_testing()
+#    add_subdirectory(test)
+#endif()
 
 
 
@@ -152,5 +152,5 @@ cmut__install__install_config_directory(
 ########################################################################################################################
 ########################################################################################################################
 
-include(cmut_define_uninstall_target)
+#include(cmut_define_uninstall_target)
 
