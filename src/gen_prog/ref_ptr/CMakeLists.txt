@@ -11,7 +11,7 @@ set(target ref_ptr)
 # define header files
 #------------------------------------------------------------------------------
 
-set(${target}_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/gen_prog/ref_ptr)
+set(${target}_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include/gen_prog/ref_ptr)
 
 set(${target}_HEADER_FILES
         ${${target}_INCLUDE_DIR}/config.cpp

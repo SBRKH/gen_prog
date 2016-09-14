@@ -17,11 +17,11 @@ set(target gen_prog)
 #######################################################################################################################
 #######################################################################################################################
 
-set(${target}_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include/${target})
+set(${target}_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/include/${target}")
 
 set(
     ${target}_HEADERS
-    ${${target}_INCLUDE_DIR}/environ.hpp
+    "${${target}_INCLUDE_DIR}/environ.hpp"
 )
 
 
@@ -57,7 +57,7 @@ cmut__build__msvc__nominmax(${target})
 target_include_directories(
     ${target}
     INTERFACE
-        "$<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/include>"
+        "$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
         )
 
 
