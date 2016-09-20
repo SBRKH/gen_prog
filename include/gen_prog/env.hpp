@@ -1,5 +1,5 @@
-#ifndef gen_prog__environ_hpp
-#define gen_prog__environ_hpp
+#ifndef gen_prog__env_hpp
+#define gen_prog__env_hpp
 
 
 
@@ -13,7 +13,7 @@
 
 
 namespace gen_prog {
-namespace environ {
+namespace env {
 
 namespace exceptions {
 class Exception : public std::exception
@@ -147,8 +147,8 @@ inline bool exist(const char * name)
     return (nullptr != getenv(name));
 }
 
-} // namespace environ
+} // namespace env
 } // namespace gen_prog
 
-#endif // gen_prog__environ_hpp
+#endif // gen_prog__env_hpp
 
