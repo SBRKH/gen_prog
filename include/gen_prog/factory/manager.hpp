@@ -10,7 +10,7 @@
 
 
 
-namespace gp {
+namespace gen_prog {
 namespace factory {
 
 template <typename T>
@@ -53,14 +53,15 @@ private:
         else return factory_prototype();
     }
 
+
 private:
     factory_map _map;
 };
 
-
 }  // namespace factory
-}  // namespace gp
+}  // namespace gen_prog
 
+namespace gp = gen_prog;
 
 #endif // ** GEN_PROG__FACTORY__MANAGER_HPP_ ** //
 // End of file
