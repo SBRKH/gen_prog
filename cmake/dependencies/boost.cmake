@@ -1,8 +1,8 @@
-set( libunocxx_Boost_VERSION
+set( gen_prog_Boost_VERSION
     1.61.0
     )
 
-set( libunocxx_Boost_COMPONENTS
+set( gen_prog_Boost_COMPONENTS
     filesystem
     log
     system
@@ -12,14 +12,18 @@ set( libunocxx_Boost_COMPONENTS
 hunter_add_package(
     Boost
     COMPONENTS
-        ${libunocxx_Boost_COMPONENTS}
+        ${gen_prog_Boost_COMPONENTS}
     )
 
+if(HUNTER_ENABLED)
+    set(FIND_PACKAGE_MODE CONFIG)
+endif()
 
 find_package(
     Boost
-        ${libunocxx_Boost_VERSION}
-    REQUIRED COMPONENTS
-        ${libunocxx_Boost_COMPONENTS}
-    CONFIG
+        ${gen_prog_Boost_VERSION}
+    REQUIRED
+    COMPONENTS
+        ${gen_prog_Boost_COMPONENTS}
+    ${FIND_PACKAGE_MODE}
     )
