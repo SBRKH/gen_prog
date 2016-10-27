@@ -60,6 +60,7 @@ public:
 
 private:
     iterator get_callback_iterator_or_throw(const callback_type & callback);
+    void throw_null_callback() const;
     void throw_invalid_callback() const;
     void throw_callback_already_exist() const;
 
@@ -80,7 +81,7 @@ template <class T>
 void callback_register<T>::add(const callback_type & callback)
 {
     if (callback == nullptr)
-    { throw_invalid_callback(); }
+    { throw_null_callback(); }
 
     const auto it = _callbacks.find(callback);
     if (it != _callbacks.end()) { throw_callback_already_exist(); }
@@ -115,6 +116,14 @@ callback_register<T>::get_callback_iterator_or_throw(const callback_type & callb
     const auto it = _callbacks.find(callback);
     if (it == _callbacks.end()) { throw_invalid_callback(); }
     return it;
+}
+
+//--------------------------------------------------------------------------------------------------------------------//
+
+template <class T>
+void callback_register<T>::throw_null_callback() const
+{
+    throw std::invalid_argument("null ptr callback");
 }
 
 //--------------------------------------------------------------------------------------------------------------------//
