@@ -40,6 +40,11 @@ public:
         if (it != _map.end()) _map.erase(it);
     }
 
+    bool has(const id_type & id) const
+    {
+        return (_map.find(id) != _map.end());
+    }
+
     template <typename... Args>
     result_type create(const id_type & id, Args&&... args) const
     { return get(id)(std::forward<Args>(args)...); }
