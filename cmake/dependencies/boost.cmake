@@ -4,7 +4,6 @@ set( gen_prog_Boost_VERSION
 
 set( gen_prog_Boost_COMPONENTS
     filesystem
-    log
     system
     thread
     )
